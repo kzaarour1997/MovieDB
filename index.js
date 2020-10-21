@@ -7,7 +7,14 @@ const movies = [
     { title: 'Avatar', year: 2009, rating: 7.8 },
     { title: 'Brazil', year: 1985, rating: 8 },
     { title: 'الإرهاب والكباب‎', year: 1992, rating: 6.2 }
+    
 ]
+let year=[];
+let title=[];
+let rating=[];
+for (let i = 0; i < movies.length; i++) {
+    year[i] = movies[i].year;
+  }
 app.get("/", (req, res) => res.send("ok"));
 app.get("/test", (req, res) => res.send({status:200, message:"ok"}));
 app.get("/time", (req, res) => res.send({status:200, message:date.getHours() +":"+date.getMinutes()}));
@@ -27,6 +34,37 @@ app.get('/hello/:id?', (req, res)=> {
   });
   app.get('/movies/read', (req, res) => 
     res.send({status:200, data:movies}));
+    app.get('/movies/read/by-date', (req, res) =>{
+          year=movies.sort(function(a, b) {
+            var dateA = a.year, dateB = b.year;
+            return dateA - dateB;
+        });
+          
+        res.send({status:200, data: year});
+});
+app.get('/movies/read/by-rating', (req, res) =>{
+
+          rating=movies.sort(function(a, b) {
+            return a.rating - b.rating;
+        });
+          
+        res.send({status:200, data: rating});
+    
+});
+app.get('/movies/read/by-title', (req, res) =>{
+
+    title=movies.sort(function(a, b) {
+        var titleA = a.title.toLowerCase(), titleB = b.title.toLowerCase();
+        if (titleA < titleB) return -1;
+        if (titleA > titleB) return 1;
+        return 0;
+    });
+    
+  res.send({status:200, data: title});
+
+});
+
+
   app.get("/movies/create", (req, res) => res.send("create"));
   app.get("/movies/update", (req, res) => res.send("update"));
   app.get("/movies/delete", (req, res) => res.send("delete"));
