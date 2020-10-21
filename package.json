@@ -1,5 +1,4 @@
 {
-  
   "name": "moviedb",
   "description": "or CMDB for short",
   "version": "1.0.0",
@@ -12,10 +11,15 @@
     "type": "git",
     "url": "git+https://github.com/kzaarour1997/MovieDB.git"
   },
-  "author": "",
+  "keywords": [
+    "api"
+  ],
+  "author": "moi",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/kzaarour1997/MovieDB/issues"
+  "dependencies": {
+    "express": "^4.17.1"
   },
-  "homepage": "https://github.com/kzaarour1997/MovieDB#readme"
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
 }
