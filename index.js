@@ -48,7 +48,7 @@ app.get('/hello/:id?', (req, res)=> {
      app.get('/movies/read/by-rating', (req, res) =>{
 
           rating=movies.sort(function(a, b) {
-            return a.rating - b.rating;
+            return b.rating - a.rating;
         });
           
         res.send({status:200, data: rating});
@@ -70,7 +70,7 @@ app.get('/hello/:id?', (req, res)=> {
 
 app.get('/movies/read/id/:id?', (req, res) => {
   for(let i=0;i<movies.length;i++){
-  if(req.params.id === movies[i].title){
+  if(req.params.id === movies[i]){
 
     res.send({status:200, data:movies[i]})
   }else{res.send({status:404, error:true, message:'the movie title does not exist'})}
@@ -79,7 +79,32 @@ app.get('/movies/read/id/:id?', (req, res) => {
     
 
 }});
-  app.get("/movies/create", (req, res) => res.send("create"));
+    app.get("/movies/add/title=:title?&year=:year?&rating=:rate?", (req, res) => {
+      var v=req.params.year.toString();
+      
+       if(Boolean(req.params.title)===false||Boolean(req.params.year)===false||v.length<5||v.length>5||isNaN(req.params.year)){
+    
+        res.send({status:403, error:true, message:'you cannot create a movie without providing a title and a year'})
+    
+    
+      }
+      else if (req.params.title && !isNaN(req.params.year) && req.params.rate) {
+        movies.push({
+          title: req.params.title,year: req.params.year,rating: req.params.rate});
+        res.send({status: 200,message: `ADDED`,data:movies})}
+     
+      
+      else if(Boolean(req.params.title)===true && Boolean(req.params.year)===true ){
+
+        movies.push({title: req.params.title, year: req.params.year, rating: `4`})
+        res.send({status: 200,message: `ADDED`,data:movies})}
+      
+      });
+
+
+
+
+
   app.get("/movies/update", (req, res) => res.send("update"));
   app.get("/movies/delete", (req, res) => res.send("delete"));
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
