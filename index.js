@@ -70,15 +70,14 @@ app.get('/hello/:id?', (req, res)=> {
 
 app.get('/movies/read/id/:id?', (req, res) => {
   for(let i=0;i<movies.length;i++){
-  if(req.params.id === movies[i]){
+  if(req.params.id === movies[i].title){
 
     res.send({status:200, data:movies[i]})
-  }else{res.send({status:404, error:true, message:'the movie title does not exist'})}
+  }
+}
+res.send({status:404, error:true, message:'the movie title does not exist'})
 
-
-    
-
-}});
+});
     app.get("/movies/add/title=:title?&year=:year?&rating=:rate?", (req, res) => {
       var v=req.params.year.toString();
       
@@ -106,5 +105,14 @@ app.get('/movies/read/id/:id?', (req, res) => {
 
 
   app.get("/movies/update", (req, res) => res.send("update"));
-  app.get("/movies/delete", (req, res) => res.send("delete"));
+  app.get('/movies/delete/id/:id?', (req, res) => {
+    for(let i=0;i<movies.length;i++){
+    if(req.params.id === movies[i].title){
+       delete movies[i]
+      res.send({status:200, data:movies})
+    }
+  }
+  res.send({status:404, error:true, message:'the movie title does not exist'})
+  
+  });
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
