@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const port = 3000;
+const t={}
 let date = new Date();
 const movies = [
     { title: 'Jaws', year: 1975, rating: 8 },
@@ -34,6 +35,7 @@ app.get('/hello/:id?', (req, res)=> {
   });
   app.get('/movies/read', (req, res) => 
     res.send({status:200, data:movies}));
+    //By-Date
     app.get('/movies/read/by-date', (req, res) =>{
           year=movies.sort(function(a, b) {
             var dateA = a.year, dateB = b.year;
@@ -42,7 +44,8 @@ app.get('/hello/:id?', (req, res)=> {
           
         res.send({status:200, data: year});
 });
-app.get('/movies/read/by-rating', (req, res) =>{
+   //By-Rating
+     app.get('/movies/read/by-rating', (req, res) =>{
 
           rating=movies.sort(function(a, b) {
             return a.rating - b.rating;
@@ -51,7 +54,8 @@ app.get('/movies/read/by-rating', (req, res) =>{
         res.send({status:200, data: rating});
     
 });
-app.get('/movies/read/by-title', (req, res) =>{
+  //By-Title
+     app.get('/movies/read/by-title', (req, res) =>{
 
     title=movies.sort(function(a, b) {
         var titleA = a.title.toLowerCase(), titleB = b.title.toLowerCase();
@@ -64,7 +68,17 @@ app.get('/movies/read/by-title', (req, res) =>{
 
 });
 
+app.get('/movies/read/id/:id?', (req, res) => {
+  for(let i=0;i<movies.length;i++){
+  if(req.params.id === movies[i].title){
 
+    res.send({status:200, data:movies[i]})
+  }else{res.send({status:404, error:true, message:'the movie title does not exist'})}
+
+
+    
+
+}});
   app.get("/movies/create", (req, res) => res.send("create"));
   app.get("/movies/update", (req, res) => res.send("update"));
   app.get("/movies/delete", (req, res) => res.send("delete"));
