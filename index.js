@@ -1,4 +1,7 @@
 const express = require("express");
+const bodyParser= require('body-parser')
+const MongoClient = require('mongodb').MongoClient
+
 const app = express();
 const port = 3000;
 const t={}
@@ -26,6 +29,20 @@ app.get('/hello/:id?', (req, res)=> {
     }
     
   });
+  var connectionString='mongodb+srv://khalil:khalil1997@cluster0.ywps1.mongodb.net/movies?retryWrites=true&w=majority';
+  MongoClient.connect(connectionString, { useUnifiedTopology: true })
+  .then(client => {
+    console.log('Connected to Database')
+    const db = client.db('movie')
+    const quotesCollection = db.collection('movie')
+    app.get('/test1', (req, res) => {
+      quotesCollection.insertOne(movies)
+        .then(result => {
+          console.log(result)
+        })
+        .catch(error => console.error(error))
+    })
+  })
   app.get("/search=:s?", (req, res) =>{
     if (req.params.s) {
       res.send({ status: 200, message: `ok`, data: req.params.s});
