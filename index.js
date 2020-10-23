@@ -79,10 +79,10 @@ res.send({status:404, error:true, message:'the movie title does not exist'})
 
 });
 //CREATE
-    app.get("/movies/add/title=:title?&year=:year?&rating=:rate?", (req, res) => {
+    app.post("/movies/add/title=:title?&year=:year?&rating=:rate?", (req, res) => {
       var v=req.params.year.toString();
       
-       if(Boolean(req.params.title)===false||Boolean(req.params.year)===false||v.length<5||v.length>5||isNaN(req.params.year)){
+       if(Boolean(req.params.title)===false||Boolean(req.params.year)===false||v.length<4||v.length>4||isNaN(req.params.year)){
     
         res.send({status:403, error:true, message:'you cannot create a movie without providing a title and a year'})
     
@@ -91,7 +91,7 @@ res.send({status:404, error:true, message:'the movie title does not exist'})
       else if (req.params.title && !isNaN(req.params.year) && req.params.rate) {
         movies.push({
           title: req.params.title,year: req.params.year,rating: req.params.rate});
-        res.send({status: 200,message: `ADDED`,data:movies})}
+        res.send({status: 200,message: `newlist`,data:movies})}
      
       
       else if(Boolean(req.params.title)===true && Boolean(req.params.year)===true ){
@@ -101,7 +101,7 @@ res.send({status:404, error:true, message:'the movie title does not exist'})
       
       });
   //DELETE
-  app.get('/movies/delete/id/:id?', (req, res) => {
+  app.delete('/movies/delete/id/:id?', (req, res) => {
     for(let i=0;i<movies.length;i++){
     if(req.params.id === movies[i].title){
        delete movies[i]
@@ -112,7 +112,7 @@ res.send({status:404, error:true, message:'the movie title does not exist'})
   
   });
   //UPDATE
-app.get("/movies/update/id=:id?&title=:title?&rating=:rate?",(req, res) => {
+app.put("/movies/update/id=:id?&title=:title?&rating=:rate?",(req, res) => {
     
   for(let i=0;i<movies.length;i++){
     if(req.params.id === movies[i].title){
