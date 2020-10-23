@@ -78,6 +78,7 @@ app.get('/movies/read/id/:id?', (req, res) => {
 res.send({status:404, error:true, message:'the movie title does not exist'})
 
 });
+//CREATE
     app.get("/movies/add/title=:title?&year=:year?&rating=:rate?", (req, res) => {
       var v=req.params.year.toString();
       
@@ -99,12 +100,7 @@ res.send({status:404, error:true, message:'the movie title does not exist'})
         res.send({status: 200,message: `ADDED`,data:movies})}
       
       });
-
-
-
-
-
-  app.get("/movies/update", (req, res) => res.send("update"));
+  //DELETE
   app.get('/movies/delete/id/:id?', (req, res) => {
     for(let i=0;i<movies.length;i++){
     if(req.params.id === movies[i].title){
@@ -115,4 +111,31 @@ res.send({status:404, error:true, message:'the movie title does not exist'})
   res.send({status:404, error:true, message:'the movie title does not exist'})
   
   });
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+  //UPDATE
+app.get("/movies/update/id=:id?&title=:title?&rating=:rate?",(req, res) => {
+    
+  for(let i=0;i<movies.length;i++){
+    if(req.params.id === movies[i].title){
+    if(Boolean(req.params.title)===true &&Boolean(req.params.rate)===true){
+     movies[i].title=req.params.title;
+     movies[i].rating=req.params.rate;
+     res.send({status:200,message:movies})}
+     else if (Boolean(req.params.title)===true &&Boolean(req.params.rate)===false){
+      movies[i].title=req.params.title;
+      res.send({status:200,message:movies});
+
+     }else if(Boolean(req.params.title)===false&&Boolean(req.params.rate)===true){
+      movies[i].rating=req.params.rate;
+      res.send({status:200,message:movies})
+     }
+  }
+  }res.send({status:404, error:true, message:'the movie title does not exist'})
+});
+
+
+
+
+  app.listen(port, () =>
+  console.log(`Server running at: http://localhost:${ port}/`)
+);
+
