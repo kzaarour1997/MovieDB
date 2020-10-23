@@ -96,7 +96,7 @@ res.send({status:404, error:true, message:'the movie title does not exist'})
 
 });
 //CREATE
-    app.post("/movies/add/title=:title?&year=:year?&rating=:rate?", (req, res) => {
+    app.get("/movies/add/title=:title?&year=:year?&rating=:rate?", (req, res) => {
       var v=req.params.year.toString();
       
        if(Boolean(req.params.title)===false||Boolean(req.params.year)===false||v.length<4||v.length>4||isNaN(req.params.year)){
@@ -118,7 +118,7 @@ res.send({status:404, error:true, message:'the movie title does not exist'})
       
       });
   //DELETE
-  app.delete('/movies/delete/id/:id?', (req, res) => {
+  app.get('/movies/delete/id/:id?', (req, res) => {
     for(let i=0;i<movies.length;i++){
     if(req.params.id === movies[i].title){
        delete movies[i]
@@ -129,7 +129,7 @@ res.send({status:404, error:true, message:'the movie title does not exist'})
   
   });
   //UPDATE
-app.put("/movies/update/id=:id?&title=:title?&rating=:rate?",(req, res) => {
+app.get("/movies/update/id=:id?&title=:title?&rating=:rate?",(req, res) => {
     
   for(let i=0;i<movies.length;i++){
     if(req.params.id === movies[i].title){
